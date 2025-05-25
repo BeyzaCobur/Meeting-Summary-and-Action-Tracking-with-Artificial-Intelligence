@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:toplanti/screens/meeting_list_screen.dart';
+import 'package:toplanti/widgets/record.dart';
+import 'package:provider/provider.dart';
+import 'providers/meeting_provider.dart';
 
 import 'package:toplanti/styles/sizes.dart';
 import 'package:toplanti/styles/theme.dart';
-import 'package:toplanti/transcript_list.dart';
-import 'package:toplanti/websocket.dart';
-import 'record.dart';
+import 'package:toplanti/widgets/transcript_list.dart';
+import 'package:toplanti/services/websocket.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MeetingProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       
-      theme: appTheme,
-      home: MainScreen(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: const MeetingListScreen(),
     );
   }
 }
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -105,7 +115,7 @@ void initState() {
           children: [
             Column(
               children: [
-                Record()
+                RecordWidget()
 
               ],
             ),

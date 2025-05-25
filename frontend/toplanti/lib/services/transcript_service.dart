@@ -24,26 +24,24 @@ class TranscriptService {
     }
   }
 
-  static Future<bool> transcribeAudio(File file) async {
+static Future<bool> transcribeAudio(File file, String meetingId) async {
   final request = http.MultipartRequest(
     'POST',
     Uri.parse('$baseURL/transcribe'),
   );
 
-  request.files.add(
-    await http.MultipartFile.fromPath('file', file.path),
-  );
+  request.fields['meeting_id'] = meetingId;
+  request.files.add(await http.MultipartFile.fromPath('file', file.path));
 
   final streamedResponse = await request.send();
   final response = await http.Response.fromStream(streamedResponse);
 
   if (response.statusCode == 200) {
     final Map<String, dynamic> decoded = json.decode(response.body);
-    if (decoded['status'] == 'success') {
-      return true;
-    }
+    return decoded['status'] == 'success';
   }
   return false;
 }
+
 
 }

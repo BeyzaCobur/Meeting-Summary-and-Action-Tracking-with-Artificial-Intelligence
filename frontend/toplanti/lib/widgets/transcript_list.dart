@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'models/transcripts.dart';
-import 'services/transcript_service.dart';
+import '../models/transcripts.dart';
+import '../services/transcript_service.dart';
 
 class TranscriptList extends StatefulWidget {
   const TranscriptList({Key? key}) : super(key: key);
